@@ -1,7 +1,7 @@
 import sqlite3
 from sqlite3 import Error
 from datetime import datetime
-import win32com.client  # Outlookin pywin32 -kirjasto
+import win32com.client  
 import os
 
 class Tietokanta:
@@ -71,15 +71,15 @@ def laheta_sahkoposti(lahettaja, saaja, aihe, teksti):
     """Lähetä sähköposti Outlookin kautta."""
     ol = win32com.client.Dispatch('Outlook.Application')
     olmailitem = 0x0  # Sähköpostityyppi
-    newmail = ol.CreateItem(olmailitem)  # Luo uusi sähköposti
-    newmail.Subject = aihe  # Aihe
-    newmail.To = saaja  # Vastaanottaja
-    newmail.Body = teksti  # Viesti
-    newmail.Send()  # Lähetä viesti
+    newmail = ol.CreateItem(olmailitem)  
+    newmail.Subject = aihe  
+    newmail.To = saaja
+    newmail.Body = teksti
+    newmail.Send() 
 
 def main():
     """Main function. Contains all of the main code."""
-    db = Tietokanta('esimerkki.db')  # Luo tietokanta-objekti
+    db = Tietokanta('esimerkki.db') 
     while True:
         print("\nMAIN MENU")
         print("1: Add entry")
@@ -93,23 +93,23 @@ def main():
             saaja = input("Receiver: ")
             teksti = input("Message: ")
             aihe = input("Subject: ")
-            db.lisaa_tieto(lahettaja, saaja, teksti, aihe)  # Tallennetaan viesti tietokantaan
-            laheta_sahkoposti(lahettaja, saaja, aihe, teksti)  # Lähetetään sähköposti
+            db.lisaa_tieto(lahettaja, saaja, teksti, aihe)  
+            laheta_sahkoposti(lahettaja, saaja, aihe, teksti) 
             print("Message added and sent.")
             
         elif user_input == "2":
             print("Database 'esimerkki' table:")
-            db.get_from_database()  # Näytetään kaikki tietokannan viestit
+            db.get_from_database()  
             value_to_remove = int(input("Enter index (id) to remove: "))
-            db.remove_from_database(value_to_remove)  # Poistetaan valittu viesti tietokannasta
+            db.remove_from_database(value_to_remove) 
             
         elif user_input == "3":
-            db.get_from_database()  # Listataan kaikki tietokannan viestit
+            db.get_from_database() 
 
         elif user_input == "4":
             print("Quitting...")
-            db.sulje()  # Suljetaan tietokannan yhteys
-            break  # Lopetetaan ohjelma
+            db.sulje() 
+            break  
 
         else:
             print("Invalid choice.")
